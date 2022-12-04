@@ -22,11 +22,11 @@ app.use(express.json());
 
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "./Develop/public/index.html"));
+    res.sendFile(path.join(__dirname, "./public/index.html"));
 })
 
 app.get("/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "./Develop/public/notes.html"))
+    res.sendFile(path.join(__dirname, "./public/notes.html"))
 })
 
 // code to send JSON of notes if the user accesses the route /api/notes
@@ -123,4 +123,6 @@ app.delete("/api/notes/:id", (req, res) => {
 
 // initialize port to start listening to the server
 
-app.listen(PORT, () => {})
+app.listen(PORT, () => {
+    console.log(`application listening on PORT ${PORT}`)
+})
