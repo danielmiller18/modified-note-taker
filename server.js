@@ -95,15 +95,32 @@ app.post("/api/notes", (req, res) => {
 // // Delete the chosen note using the deletehttp method
 
 app.delete("/api/notes/:id", (req, res) => {
-    let deleteId = JSON.parse(req,params.id);
+    let deleteId = JSON.parse(req, params.id);
     console.log("ID to be deleted: ", deleteId);
-    fs.readFile(path.join(__dirname, "./Develop/db/db.json", "utf8", (error, notes)=> {
-        if(error){
+    fs.readFile(path.join(__dirname, "./Develop/db/db.json", "utf8", (error, notes) => {
+        if (error) {
             return console.log(error)
         }
-
         let notesArray = JSON.parse(notes);
-
         // we can loop through notes array and remove note with id matching the one with the id deleted
+        for (var i = 0; i < notesArray.length; i++) {
+            if (deleteId == notesArray[i].id) {
+                notesArray.splice(i, 1);
+
+                fs.writeFile(path.join(__dirname, "./Develop/db.json"), JSON.stringify(notesArray), (error, data) => {
+                    if (error) {
+                        return error
+                    }
+                    console.log(notesArray) // to see what I am getting in notes array
+                    res.json(notesArray)
+                })
+            }
+        }
+
     }))
 })
+
+
+// initialize port to start listening to the server
+
+app.listen(PORT, () => {})
