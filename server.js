@@ -50,23 +50,60 @@ app.post("/api/notes", (req, res) => {
     const currentNote = req.body;
 
 
-    fs.readFile(path.join(__dirname, "./db/db.json"), "utf8", (error.notes) => {
-        if(error) {
+    fs.readFile(path.join(__dirname, "./Develop/db/db.json"), "utf8", (error, notes) => {
+        if (error) {
             return console.log(error)
         }
+
+        notes = JSON.parse(notes);
+
+
+        // assign unique id to each new note depending onthe last ID when there will be noitems in notes array the we assign the id as a number i.e 10, 20
+        if (notes.length > 0) {
+            let lastId = notes[notes.length - 1].id;
+            var id = parseInt(lastId) + 1;
+        } else {
+            var id = 10
+        }
+
+        // create a new note object
+
+        let newNote = {
+            title: currentNote.title,
+            text: currentNote.text,
+            id: id
+        }
+        // nerge a new note with existing notes array
+
+
+        var newNotesArr = notes.concat(newNote)
+        // write new array to db,json file and return it to your user
+
+        fs.writeFile(path.join(_dirname, "/Develop/db/bd.json"), JSON.stringify(newNotesArr), (error, data) => {
+            if (error) {
+                return error
+            }
+            console.log(newNotesArr);
+            res.json(newNotesArr)
+        })
+
     })
 
-    notes = JSON.parse(notes);
+})
 
 
-    // assign unique id to each new note depending onthe last ID when there will be noitems in notes array the we assign the id as a number i.e 10, 20
-    if (notes.length > 0) {
-        let lastId = notes[notes.length - 1].id;
-        var id = parseInt(lastId) + 1;
-    } else {
-        var id = 10
-    }
+// // Delete the chosen note using the deletehttp method
 
+app.delete("/api/notes/:id", (req, res) => {
+    let deleteId = JSON.parse(req,params.id);
+    console.log("ID to be deleted: ", deleteId);
+    fs.readFile(path.join(__dirname, "./Develop/db/db.json", "utf8", (error, notes)=> {
+        if(error){
+            return console.log(error)
+        }
 
-    // create a new note object
+        let notesArray = JSON.parse(notes);
+
+        // we can loop through notes array and remove note with id matching the one with the id deleted
+    }))
 })
