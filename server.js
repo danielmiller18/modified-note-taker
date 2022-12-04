@@ -107,7 +107,7 @@ app.delete("/api/notes/:id", (req, res) => {
             if (deleteId == notesArray[i].id) {
                 notesArray.splice(i, 1);
 
-                fs.writeFile(path.join(__dirname, "./db.json"), JSON.stringify(notesArray), (error, data) => {
+                fs.writeFile(path.join(__dirname, "./db/db.json"), JSON.stringify(notesArray), (error, data) => {
                     if (error) {
                         return error
                     }
